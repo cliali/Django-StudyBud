@@ -1,0 +1,37 @@
+services:
+
+  db:
+    image: postgres:17.0-bookworm
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=django_studybud
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data/
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis
+    ports:
+      - 6379:6379
+    restart: always
+    volumes:
+      - redis-data:/data
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: 'pg_pass'
+    ports:
+      - "5050:80"
+
+volumes:
+    postgres-data:
+    redis-data:
+
