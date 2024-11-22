@@ -15,4 +15,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(("django_studybud.api.urls", "api"))),
     path("core/", include(("django_studybud.core.urls", "core"))),
+    path("base/", include(("django_studybud.base.urls", "bsae"))),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

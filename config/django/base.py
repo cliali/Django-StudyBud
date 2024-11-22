@@ -19,6 +19,7 @@ LOCAL_APPS = [
     "django_studybud.core.apps.CoreConfig",
     "django_studybud.common.apps.CommonConfig",
     "django_studybud.authentication.apps.AuthenticationConfig",
+    "django_studybud.base.apps.BaseConfig",
 ]
 
 THIRD_PARTY_APPS = [
