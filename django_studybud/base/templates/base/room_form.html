@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+
+{% block content %}
+    <h3 class="mt-8 mb-4 prose prose-2xl">
+        Create Room:
+    </h3>
+    
+    <form method="POST" action="" class="form form-class text-white ">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button class="btn btn-success">
+            Add
+        </button>
+        <button href="/hi" class="btn btn-error" onclick=location.href="{% url 'base:home' %}">
+            Cancel
+        </button>
+    </form>
+{% endblock %}
