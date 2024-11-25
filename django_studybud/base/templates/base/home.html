@@ -8,9 +8,11 @@
     {% endfor %}
   </div>
   <div class="col-span-4">
-    
-    <p> Rooms:</p>
-    <p><a href="{% url 'base:create-room' %}" class="cursor-pointer">Create Room</a></p>
+    <div class="mb-4">
+      <h4> Rooms:</h4>
+      <p>{{room_count}} rooms available</p>
+      <a href="{% url 'base:create-room' %}" class="cursor-pointer">Create Room</a>
+    </div>
     <hr>
     {% for room in rooms %}
     <p>@{{room.host}}</p>

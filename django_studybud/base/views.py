@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import redirect, render
 
 from django_studybud.base.forms import RoomForm
@@ -8,9 +9,14 @@ from .models import Room, Topic
 
 # Create your views here.
 def home(request):
-    room = Room.objects.all()
+    q = request.GET.get("q") if request.GET.get("q") is not None else ""
+
+    rooms = Room.objects.filter(
+        Q(topic__name__icontains=q) | Q(name__icontains=q) | Q(description__icontains=q)
+    )
     topics = Topic.objects.all()
-    context = {"rooms": room, "topics": topics}
+    room_count = rooms.count()
+    context = {"rooms": rooms, "topics": topics, "room_count": room_count}
     return render(request, "base/home.html", context)
 
 
