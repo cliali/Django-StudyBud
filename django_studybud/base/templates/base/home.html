@@ -7,20 +7,38 @@
     #{{topic.name}} <br>
     {% endfor %}
   </div>
+  
   <div class="col-span-4">
-    <div class="mb-4">
-      <h4> Rooms:</h4>
-      <p>{{room_count}} rooms available</p>
-      <a href="{% url 'base:create-room' %}" class="cursor-pointer">Create Room</a>
+    <div class="flex justify-between items-center mb-6 ">
+      <div class="mt-2 mb-4 prose prose-2xl"> 
+        <h5 class=""> Rooms:</h5>
+        <p class="label-text-alt">{{room_count}} rooms available</p>
+      </div>
+      <div class="flex items-center">        
+        <a href="{% url 'base:create-room' %}" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg> Create Room
+        </a>
+      </div>
     </div>
-    <hr>
+      
     {% for room in rooms %}
-    <p>@{{room.host}}</p>
-    <div>
-      {{room.id}} -- <a href="{% url 'base:home' %}">{{ room.name }}</a>
-    </div>
-    <span>{{ room.topic }}</span>
-    <hr>
+      <div class="card bg-base-100 w-96 shadow-xl mb-4">
+        <div class="card-body">
+          <div>
+            <a href="">
+              <span>@{{room.host.username}}</span>
+            </a>
+          </div>
+          <div class="card-title">
+            <a href="{% url 'base:room' room.id %}">{{ room.name }}</a>
+          </div>
+          <div class="card-actions justify-end">
+            <div class="badge badge-outline">{{ room.topic.name }}</div>
+          </div>
+        </div>
+      </div>
     {% endfor %}
   </div>
   
