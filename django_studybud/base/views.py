@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 
 from django_studybud.base.forms import RoomForm
 
-from .models import Room, Topic
+from .models import Message, Room, Topic
 
 
 # Create your views here.
@@ -20,8 +20,23 @@ def home(request):
     return render(request, "base/home.html", context)
 
 
-def room(request):
-    context = {}
+def room(request, pk):
+    room = Room.objects.get(id=pk)
+    room_messages = Message.objects.filter(room=room).order_by("-created")
+    participants = room.participants.all()
+
+    if request.method == "POST":
+        Message.objects.create(
+            user=request.user, room=room, body=request.POST.get("body")
+        )
+        room.participants.add(request.user)
+        return redirect("base:room", pk=room.id)
+
+    context = {
+        "room": room,
+        "participants": participants,
+        "room_messages": room_messages,
+    }
     return render(request, "base/room.html", context)
 
 

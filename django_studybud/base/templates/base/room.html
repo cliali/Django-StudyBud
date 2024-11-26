@@ -1,0 +1,57 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<div class="flex flex-col-reverse md:grid md:grid-cols-6 md:gap-6">
+    <div class="col-span-3">
+        <div class="mb-6">
+            <div class="mt-2 mb-4 prose prose-2xl">
+                <h3 class="">{{room.name}} </h3>
+                <span>{{ room.created|timesince }} ago</span>
+            </div>
+            <div>
+                <a href="">
+                    <span>Hosted by @{{ room.host.username }} </span>
+                </a>
+            </div>
+            <span>{{ room.topic }}</span>
+        </div>
+        <div class="room__message">
+            <form action="" method="POST">
+              {% csrf_token %}
+              <input name="body" placeholder="Write your message here..." />
+            </form>
+        </div>
+        {% for message in room_messages %}
+            <div>
+                <div class="mb-4">
+                    <div>
+                        <a href="">
+                            <span>@{{message.user.username}} Sent at {{ message.created.time }}</span>
+                        </a>
+                        <span>{{ message.created|timesince }}</span>
+                    </div>
+                    <div>
+                        {{message.body}}
+                    </div>
+                </div>
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-span-1">
+        {% for user in participants %}
+            <a href="">
+                <p>
+                    {{ user.name }}
+                    <span>
+                        @{{ user.username }}
+                    </span>
+                </p>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
