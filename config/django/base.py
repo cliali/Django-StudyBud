@@ -31,6 +31,8 @@ THIRD_PARTY_APPS = [
     "djoser",
     "crispy_forms",
     "crispy_tailwind",
+    "allauth",
+    "allauth.account",
 ]
 
 INSTALLED_APPS = [
@@ -102,6 +104,7 @@ if os.environ.get("GITHUB_WORKFLOW"):
         }
     }
 
+AUTHENTICATION_BACKENDS = []
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -149,6 +152,8 @@ APP_DOMAIN = env("APP_DOMAIN", default="http://localhost:8000")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 
 from config.settings.cors import *  # noqa
 from config.settings.djoser import *  # noqa
@@ -159,6 +164,7 @@ from config.settings.rest import *  # noqa
 from config.settings.sessions import *  # noqa
 from config.settings.swagger import *  # noqa
 from config.settings.crispy import *  # noqa
+from config.settings.allauth import *  # noqa
 
 # from config.settings.email_sending import *  # noqa
 # from config.settings.sentry import *  # noqa

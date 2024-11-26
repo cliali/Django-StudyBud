@@ -26,14 +26,14 @@
                 </a>
             </li>
             <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
+            <li><a href="{% url 'account_logout' %}">Logout</a></li>
             </ul>
         {% else %}
             <ul
             tabindex="0"
             class="menu menu-sm dropdown-content bg-base-100 rounded-box w-52 p-2 shadow">
-            <li><a>Login</a></li>
-            <li><a>SignUp</a></li>
+            <li><a href="{% url 'account_login' %}">Login</a></li>
+            <li><a href="{% url 'account_signup' %}">SignUp</a></li>
             </ul>
         {% endif %}
       </div>
