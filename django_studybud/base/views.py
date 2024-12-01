@@ -74,3 +74,16 @@ def update_room(request, pk):
             return redirect("base:home")
     context = {"form": form, "room": room}
     return render(request, "base/update-room.html", context)
+
+
+@login_required
+def delete_room(request, pk):
+    room = Room.objects.get(id=pk)
+    if request.user != room.host:
+        return HttpResponse("You are not allowed here!!")
+
+    if request.method == "POST":
+        room.delete()
+        return redirect("base:home")
+
+    return render(request, "base/delete-room.html", {"obj": room})
