@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from django_studybud.base.forms import RoomForm
@@ -57,3 +58,19 @@ def create_room(request):
         return redirect("base:home")
     context = {"form": form, "topics": topics}
     return render(request, "base/room_form.html", context)
+
+
+@login_required
+def update_room(request, pk):
+    room = Room.objects.get(id=pk)
+    form = RoomForm(instance=room)
+    if request.user != room.host:
+        return HttpResponse("You are not allowed here!!")
+
+    if request.method == "POST":
+        form = RoomForm(request.POST, instance=room)
+        if form.is_valid():
+            form.save()
+            return redirect("base:home")
+    context = {"form": form, "room": room}
+    return render(request, "base/update-room.html", context)

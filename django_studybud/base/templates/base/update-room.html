@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% load tailwind_filters %}
+
+{% block content %}
+    <h3 class="mt-8 mb-4 prose prose-2xl">
+        Update Room:
+    </h3>
+    
+    <form method="POST" action="" class="form form-class text-white ">
+        {% csrf_token %}
+        
+        {{ form|crispy }}
+
+        <button class="btn btn-success">
+            Update
+        </button>
+        <button class="btn btn-error" onclick=location.href="{% url 'base:home' %}">
+            Cancel
+        </button>
+    </form>
+{% endblock %}
