@@ -21,7 +21,7 @@
             <div>
                 <form action="" method="POST">
                     {% csrf_token %}
-                    <input type="text" placeholder="Write your message here..." class="input input-bordered w-full max-w-xs" />
+                    <input type="text" name="body" placeholder="Write your message here..." class="input input-bordered w-full max-w-xs" />
                 </form>
             </div>
         {% else %}
@@ -47,7 +47,24 @@
                     @{{message.user.username}} Sent at
                     <time>{{message.created.time}}</time>
                 </div>
-                <div class="chat-bubble">{{message.body}}</div>
+                <div class="flex justify-center">
+
+                    <div class="chat-bubble">{{message.body}}</div>
+
+                    {% if request.user.username == message.user.username %}
+                    <div class="dropdown dropdown-hover pd-0">
+                        <div tabindex="0" role="button" class="btn m-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+                            </svg>
+                        </div>
+                        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                            <li><a href="{% url 'base:delete-message' message.id %}">Delete</a></li>
+                        </ul>
+                    </div>
+                    {% endif %}
+                    
+                </div>
             </div>
 
         {% endfor %}
