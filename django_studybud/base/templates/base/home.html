@@ -3,8 +3,10 @@
 {% block content %}
 <div class="flex flex-col-reverse md:grid md:grid-cols-6 md:gap-6">
   
-  {% include "base/topics_component.html" %}
-  
+  <div class="col-span-1">
+    {% include "base/topics_component.html" %}
+  </div>
+
   <div class="col-span-4">
     <div class="flex justify-between items-center mb-6 ">
       <div class="mt-2 mb-4 prose prose-2xl"> 
@@ -18,14 +20,14 @@
           </svg> Create Room
         </a>
       </div>  
-    
     </div>
-      
+    
     {% include "base/feed_component.html" %}
-
   </div>
-  
-  {% include "base/activity_component.html" %}
+
+  <div class="col-span-1">
+    {% include "base/activity_component.html" %}
+  </div>
 
 </div>
 
