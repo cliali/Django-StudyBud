@@ -30,7 +30,7 @@ def home(request):
 
 def room(request, pk):
     room = Room.objects.get(id=pk)
-    room_messages = room.message_set.all()
+    room_messages = room.message_set.all()  # type: ignore
     participants = room.participants.all()
 
     if request.method == "POST":
@@ -38,7 +38,7 @@ def room(request, pk):
             user=request.user, room=room, body=request.POST.get("body")
         )
         room.participants.add(request.user)
-        return redirect("base:room", pk=room.id)
+        return redirect("base:room", pk=room.id)  # type: ignore
 
     context = {
         "room": room,
@@ -51,8 +51,8 @@ def room(request, pk):
 @login_required
 def user_profile(request, pk):
     user = User.objects.get(id=pk)
-    rooms = user.room_set.all()
-    room_messages = user.message_set.all()
+    rooms = user.room_set.all()  # type: ignore
+    room_messages = user.message_set.all()  # type: ignore
     topics = Topic.objects.all()
     context = {
         "user": user,
@@ -119,6 +119,6 @@ def delete_message(request, pk):
 
     if request.method == "POST":
         message.delete()
-        return redirect("base:room", pk=message.room.id)
+        return redirect("base:room", pk=message.room.id)  # type: ignore
 
     return render(request, "base/delete-room.html", {"obj": message})
