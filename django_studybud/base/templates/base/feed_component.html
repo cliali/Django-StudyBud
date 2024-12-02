@@ -2,7 +2,7 @@
     <div class="card bg-base-100 w-96 shadow-xl mb-4">
         <div class="card-body">
             <div>
-                <a href="">
+                <a href="{% url 'base:user-profile' user.id %}">
                     <span>@{{room.host.username}}</span>
                 </a>
             </div>

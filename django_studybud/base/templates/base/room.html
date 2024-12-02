@@ -72,7 +72,7 @@
 
     <div class="col-span-1">
         {% for user in participants %}
-            <a href="">
+            <a href="{% url 'base:user-profile' user.id %}">
                 <p>
                     {{ user.name }}
                     <span>
