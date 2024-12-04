@@ -131,8 +131,13 @@ def delete_message(request, pk):
     if request.user != message.user:
         return HttpResponse("You are not allowed here!!")
 
+    return_to = request.GET.get("return_to", "room")
     if request.method == "POST":
         message.delete()
+        if return_to == "home":
+            return redirect("base:home")
         return redirect("base:room", pk=message.room.id)  # type: ignore
 
-    return render(request, "base/delete-room.html", {"obj": message})
+    return render(
+        request, "base/delete-room.html", {"obj": message, "return_to": return_to}
+    )

@@ -20,7 +20,7 @@
                                 </a>
                                 
                                 {% if request.user == message.user %}
-                                <a href="{% url 'base:delete-message' message.id %}" class="btn btn-ghost btn-xs text-error">remove</a>
+                                <a href="{% url 'base:delete-message' message.id %}?return_to=home" class="btn btn-ghost btn-xs text-error">remove</a>
                                 {% endif %}
                             </div>
                             <p class="text-sm">replied to "<a href="{% url 'base:room' message.room.id %}" class="text-primary hover:underline">{{ message.room }}</a>"</p>

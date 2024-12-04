@@ -14,7 +14,7 @@
                 </svg>
                 Delete Confirmation
             </h2>
-            <form method="POST" action="" class="space-y-6">
+            <form method="POST" action="?return_to={{ return_to }}" class="inline space-y-6">
                 {% csrf_token %}
                 
                 <div class="alert alert-warning">
