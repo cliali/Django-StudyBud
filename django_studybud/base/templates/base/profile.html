@@ -20,10 +20,9 @@
                     <h1>About:</h1>
                     <p>{{ user.bio }}</p>
                 </div>
-                <hr>
             </div>
-
-            <h1 class="mt-4 mb-4">Room Hosted by {{ user.username }}:</h1>
+            
+            <div class="divider">Room Hosted by {{ user.username }}:</div>
             {% include "base/feed_component.html" %}
         </div>
         

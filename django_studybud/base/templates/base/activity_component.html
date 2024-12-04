@@ -1,8 +1,7 @@
 <div class="sticky top-0">
     <div class="card w-96 bg-base-100 shadow-xl">
         <div class="card-body">
-            <h2 class="card-title">Resent Activities</h2>
-            <hr>
+            <h2 class="card-title divider divider-accent">Resent Activities</h2>
             <div class="overflow-y-scroll h-[500px]">
                 {% for message in room_messages %}
                     <div>            
@@ -25,7 +24,7 @@
                         <p>replied to post “<a href="{% url 'base:room' message.room.id %}">{{ message.room }}</a>“</p>
                         <div>{{ message.body }}</div>
                     </div>
-                    <hr>
+                    <div class="divider"></div>
                 {% endfor %}
             </div>
         </div>
