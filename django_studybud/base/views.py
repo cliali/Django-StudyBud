@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from django_studybud.base.forms import RoomForm
+from django_studybud.base.forms import RoomForm, UserForm
 from django_studybud.core.models import User
 
 from .models import Message, Room, Topic
@@ -61,6 +61,20 @@ def user_profile(request, pk):
         "topics": topics,
     }
     return render(request, "base/profile.html", context)
+
+
+@login_required
+def update_user(request):
+    user = request.user
+    form = UserForm(instance=user)
+
+    if request.method == "POST":
+        form = UserForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect("base:user-profile", pk=user.pk)
+
+    return render(request, "base/update-user.html", {"form": form})
 
 
 @login_required

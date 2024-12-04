@@ -17,6 +17,8 @@ class UserAdmin(BaseUserAdmin):
                     "password2",
                     "first_name",
                     "last_name",
+                    "bio",
+                    "avatar",
                 ),
             },
         ),

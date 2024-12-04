@@ -2,20 +2,22 @@
 {% load tailwind_filters %}
 
 {% block content %}
+    
     <h3 class="mt-8 mb-4 prose prose-2xl">
-        Create Room:
+        Update User:
     </h3>
     
-    <form method="POST" action="" class="form form-class text-white ">
+    <form method="POST" action="" class="form form-class text-white" enctype="multipart/form-data">
         {% csrf_token %}
 
         {{ form|crispy }}
 
         <button class="btn btn-success">
-            Add
+            Update
         </button>
-        <button class="btn btn-error" onclick=location.href="{% url 'base:home' %}">
+        <button class="btn btn-error" onclick=location.href="{% url 'base:user-profile' user.id %}">
             Cancel
         </button>
     </form>
+
 {% endblock %}
