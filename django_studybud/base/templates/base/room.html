@@ -1,85 +1,133 @@
 {% extends "main.html" %}
 
 {% block content %}
-
-<div class="flex flex-col-reverse md:grid md:grid-cols-6 md:gap-6">
-    <div class="col-span-3">
-        <div class="mb-6">
-            <div class="mt-2 mb-4 prose prose-2xl">
-                <h3 class="">{{room.name}} </h3>
-                <span>{{ room.created|timesince }} ago</span>
-            </div>
-            <div>
-                <a href="">
-                    <span>Hosted by @{{ room.host.username }} </span>
-                </a>
-            </div>
-            <span>{{ room.topic }}</span>
-        </div>
-
-        {% if user.is_authenticated %}
-            <div>
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <input type="text" name="body" placeholder="Write your message here..." class="input input-bordered w-full max-w-xs" />
-                </form>
-            </div>
-        {% else %}
-            <input type="text" placeholder="Please Login ro send messages..." class="input input-bordered w-full max-w-xs" disabled />
-        {% endif %}
-
-        {% for message in room_messages %}
-
-            {% if request.user.username == message.user.username %}
-            <div class="chat chat-start">
-            {% else %}
-            <div class="chat chat-end">
-            {% endif %}
-
-                <div class="chat-image avatar">
-                    <div class="w-8 rounded-full">
-                        <img src="{{message.user.avatar.url}}" alt="avatar">
+<div class="container mx-auto px-4 py-6">
+    <div class="flex flex-col-reverse md:grid md:grid-cols-6 md:gap-6">
+        <div class="col-span-4">
+            <div class="card-body">
+                <div class="mb-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="prose prose-2xl">
+                            <h3 class="card-title text-2xl font-bold">{{room.name}}</h3>
+                            <p class="text-sm text-gray-500">{{ room.created|timesince }} ago</p>
+                        </div>
+                        <div class="badge badge-primary">{{  room.topic }}</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="avatar">
+                            <div class="w-8 rounded-full">
+                                <img src="{{room.host.avatar.url}}" alt="host avatar">
+                            </div>
+                        </div>
+                        <a href="{% url 'base:user-profile' room.host.id %}" class="text-sm font-medium hover:text-primary">
+                            Hosted by @{{ room.host.username }}
+                        </a>
                     </div>
                 </div>
-                <div class="chat-header">
-                    @{{message.user.username}} Sent at
-                    <time>{{message.created.time}}</time>
-                </div>
-                <div class="flex justify-center">
-
-                    <div class="chat-bubble">{{message.body}}</div>
-
-                    {% if request.user.username == message.user.username %}
-                    <div class="dropdown dropdown-hover pd-0">
-                        <div tabindex="0" role="button" class="btn m-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+                
+                <div class="mb-6">
+                    {% if user.is_authenticated %}
+                    <form action="" method="POST" class="flex gap-2">
+                        {% csrf_token %}
+                        <input type="text" name="body" placeholder="Write your message here..." 
+                            class="input input-bordered flex-1" />
+                        <button type="submit" class="btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                             </svg>
-                        </div>
-                        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                            <li><a href="{% url 'base:delete-message' message.id %}">Delete</a></li>
-                        </ul>
+                            Send
+                        </button>
+                    </form>
+                    {% else %}
+                    <div class="flex gap-2">
+                        <input type="text" placeholder="Please Login ro send messages..."
+                            class="input input-bordered flex-1" disabled />
+                        <a href="{% url 'account_login' %}" class="btn btn-primary">Login</a>
                     </div>
                     {% endif %}
-                    
+                </div>
+                
+                <div class="space-y-4">
+                    {% for message in room_messages %}
+                        {% if request.user == message.user %}
+                            <div class="chat chat-end">
+                        {% else %}
+                            <div class="chat chat-start">
+                        {% endif %}
+                            
+                        <div class="chat-image avatar">
+                            <div class="w-8 rounded-full">
+                                <img src="{{message.user.avatar.url}}" alt="avatar">
+                            </div>
+                        </div>
+
+                        <div class="chat-header">
+                            <a href="{% url 'base:user-profile' message.user.id %}" class="font-bold hover:text-primary">
+                                @{{message.user.username}}
+                            </a>
+                            <time class="text-xs opacity-50 ml-1">{{message.created|time}}</time>
+                        </div>
+
+                        <div class="flex items-start gap-2">
+                            <div class="chat-bubble">{{message.body}}</div>
+                                
+                                {% if request.user == message.user %}
+                                    <div class="dropdown dropdown-end">
+                                        <div tabindex="0" role="button" class="btn btn-ghost btn-xs btn-circle">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                    d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+                                            </svg>
+                                        </div>
+
+                                        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                            <li>
+                                                <a href="{% url 'base:delete-message' message.id %}" class="text-error">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                        
+                            </div>
+                        </div>
+                        
+                    {% endfor %}
                 </div>
             </div>
-
-        {% endfor %}
-    </div>
-
-    <div class="col-span-1">
-        {% for user in participants %}
-            <a href="{% url 'base:user-profile' user.id %}">
-                <p>
-                    {{ user.name }}
-                    <span>
-                        @{{ user.username }}
-                    </span>
-                </p>
-            </a>
-        {% endfor %}
+        </div>
+            
+        <div class="col-span-2 mb-6 md:mb-0">
+            <div class="card bg-base-100 shadow-xl sticky top-20">
+                <div class="card-body">
+                    <h3 class="card-title">Participants</h3>
+                    <div class="divider mt-0"></div>
+                    <div class="space-y-4">
+                        
+                        {% for user in participants %}
+                            <a href="{% url 'base:user-profile' user.id %}"
+                                class="flex items-center gap-3 hover:bg-base-200 p-2 rounded-lg">
+                                <div class="avatar">
+                                    <div class="w-8 rounded-full">
+                                        <img src="{{user.avatar.url}}" alt="{{user.username}} avatar">
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="font-medium">{{ user.name }}</p>
+                                    <p class="text-sm text-gray-500">@{{ user.username }}</p>
+                                </div>
+                            </a>
+                        {% endfor %}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 {% endblock %}

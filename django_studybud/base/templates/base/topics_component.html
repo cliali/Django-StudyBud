@@ -1,3 +1,17 @@
-{% for topic in topics %}
-    #{{topic.name}} <br>
-{% endfor %}
+<div class="md:col-span-2 space-y-2">
+    <div class="bg-base-100 p-4 rounded-lg shadow">
+      <h3 class="font-bold mb-3">Topics</h3>
+      <div class="space-y-2">
+        <a href="{% url 'base:home' %}" class="flex items-center justify-between hover:bg-base-200 p-2 rounded-lg {% if not request.GET.q %}bg-base-200{% endif %}">
+            <span class="text-sm font-medium">All</span>
+            <span class="badge badge-primary">{{topics.count}}</span>
+        </a>
+        {% for topic in topics %}
+            <a href="{% url 'base:home' %}?q={{topic.name}}" class="flex items-center justify-between hover:bg-base-200 p-2 rounded-lg {% if request.GET.q == topic.name %}bg-base-200{% endif %}">
+                <span class="text-sm font-medium">#{{topic.name}}</span>
+                <span class="badge">{{topic.room_set.count}}</span>
+            </a>
+        {% endfor %}
+      </div>
+    </div>
+</div>

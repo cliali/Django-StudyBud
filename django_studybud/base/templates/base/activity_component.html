@@ -1,31 +1,34 @@
-<div class="sticky top-0">
-    <div class="card w-96 bg-base-100 shadow-xl">
-        <div class="card-body">
-            <h2 class="card-title divider divider-accent">Resent Activities</h2>
-            <div class="overflow-y-scroll h-[500px]">
-                {% for message in room_messages %}
-                    <div>            
-                        <a href="{% url 'base:user-profile' user.id %}">
-                            <div class="avatar">
-                                <div class="w-8 rounded-full">
-                                    <img src="{{message.user.avatar.url}}" alt="avatar">
-                                </div>
-                                <p class="ml-2">
-                                    @{{ message.user.username }}
-                                    <span>{{ message.created|timesince }} ago</span>
-                                </p>
+<div class="md:col-span-3">
+    <div class="sticky top-20">
+        <div class="card bg-base-100 shadow-xl w-full">
+            <div class="card-body">
+                <h2 class="card-title divider">Resent Activities</h2>
+                <div class="overflow-y-auto max-h-[calc(100vh-200px)] space-y-4">
+                    {% for message in room_messages %}
+                        <div class="space-y-2">
+                            <div class="flex items-start justify-between">
+                                <a href="{% url 'base:user-profile' user.id %}" class="flex items-center gap-2">
+                                    <div class="avatar">
+                                        <div class="w-8 rounded-full">
+                                            <img src="{{message.user.avatar.url}}" alt="avatar">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium">@{{ message.user.username }}</p>
+                                        <p class="text-xs text-gray-500">{{ message.created|timesince }} ago</p>
+                                    </div>
+                                </a>
+                                
+                                {% if request.user == message.user %}
+                                <a href="{% url 'base:delete-message' message.id %}" class="btn btn-ghost btn-xs text-error">remove</a>
+                                {% endif %}
                             </div>
-                        </a>
-                        
-                        {% if request.user == message.user %}
-                            <div ><a href="{% url 'base:delete-message' message.id %}">remove</a></div>
-                        {% endif %}
-
-                        <p>replied to post “<a href="{% url 'base:room' message.room.id %}">{{ message.room }}</a>“</p>
-                        <div>{{ message.body }}</div>
-                    </div>
-                    <div class="divider"></div>
-                {% endfor %}
+                            <p class="text-sm">replied to "<a href="{% url 'base:room' message.room.id %}" class="text-primary hover:underline">{{ message.room }}</a>"</p>
+                            <p class="text-sm bg-base-200 p-2 rounded-lg">{{ message.body }}</p>
+                            <div class="divider my-2"></div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
