@@ -33,6 +33,7 @@ THIRD_PARTY_APPS = [
     "crispy_tailwind",
     "allauth",
     "allauth.account",
+    "compressor",
 ]
 
 INSTALLED_APPS = [
@@ -165,6 +166,6 @@ from config.settings.sessions import *  # noqa
 from config.settings.swagger import *  # noqa
 from config.settings.crispy import *  # noqa
 from config.settings.allauth import *  # noqa
-
+from config.settings.compressor import *  # noqa
 # from config.settings.email_sending import *  # noqa
 # from config.settings.sentry import *  # noqa
