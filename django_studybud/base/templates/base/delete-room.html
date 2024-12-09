@@ -26,7 +26,7 @@
                 </div>
                 
                 <div class="card-actions justify-end space-x-2">
-                    <a href="javascript:history.back()" class="btn btn-ghost">
+                    <a href="{{request.META.HTTP_REFERER}}" class="btn btn-ghost">
                         Cancel
                     </a>
                     <button type="submit" class="btn btn-error">
