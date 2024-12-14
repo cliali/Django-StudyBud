@@ -7,7 +7,7 @@
                     {% for message in room_messages %}
                         <div class="space-y-2">
                             <div class="flex items-start justify-between">
-                                <a href="{% url 'base:user-profile' user.id %}" class="flex items-center gap-2">
+                                <a href="{% url 'base:user-profile' message.user.id %}" class="flex items-center gap-2">
                                     <div class="avatar">
                                         <div class="w-8 rounded-full">
                                             <img src="{{message.user.avatar.url}}" alt="avatar">
