@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
@@ -72,6 +73,7 @@ def update_user(request):
         form = UserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
+            messages.success(request, "Your profile was updated successfully")
             return redirect("base:user-profile", pk=user.pk)
 
     return render(request, "base/update-user.html", {"form": form})
